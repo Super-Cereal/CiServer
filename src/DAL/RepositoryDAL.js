@@ -4,7 +4,10 @@ const RepositoryDAL = {
   getRepositorySettings() {
     return instance
       .get('/conf')
-      .then((response) => ({status: response.status, ...response.data}));
+      .then((response) => ({
+        status: response.status,
+        data: response.data.data || {},
+      }));
   },
   sendRepositorySettings(repoSettings) {
     return instance

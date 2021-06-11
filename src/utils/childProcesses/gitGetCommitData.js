@@ -1,33 +1,59 @@
 const {exec} = require('child_process');
 
-const {branchDataParser, mainDataParser} = require('../gitCommitDataParser');
-
-module.exports = (commitHash) => {
+module.exports = async (commitHash) => {
   const branchDataPromise = new Promise((resolve, reject) => {
     exec(
-      `git branch -a --contains ${commitHash}`,
+      `git name-rev --name-only ${commitHash}`,
       {cwd: './data/Repository'},
       (err, out) => {
         if (err) {
           reject(err);
         } else {
-          resolve(branchDataParser(out));
+          resolve(out.split('~')[0]);
         }
       },
     );
   });
-  const mainDataPromise = new Promise((resolve, reject) => {
+  const authorNameDataPromise = new Promise((resolve, reject) => {
+    const grep = process.platform === 'win32' ? 'findstr' : 'grep';
     exec(
-      `git cat-file commit ${commitHash}`,
+      `git cat-file commit ${commitHash} | ${grep} -i author`,
       {cwd: './data/Repository'},
       (err, out) => {
         if (err) {
           reject(err);
         } else {
-          resolve(mainDataParser(out));
+          resolve(out.substr(out.indexOf(' ') + 1).replaceAll('\n', ''));
         }
       },
     );
   });
-  return Promise.all([branchDataPromise, mainDataPromise]);
+  const commitMessageDataPromise = new Promise((resolve, reject) => {
+    exec(
+      `git log --format=%B -n 1 ${commitHash}`,
+      {cwd: './data/Repository'},
+      (err, out) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(out.replaceAll('\n', ''));
+        }
+      },
+    );
+  });
+  const commitData = await Promise.all([
+    branchDataPromise,
+    authorNameDataPromise,
+    commitMessageDataPromise,
+  ])
+    .then((res) => ({
+      commitHash,
+      branchName: res[0],
+      authorName: res[1],
+      commitMessage: res[2],
+    }))
+    .catch((err) => {
+      console.log(err);
+    });
+  return commitData;
 };

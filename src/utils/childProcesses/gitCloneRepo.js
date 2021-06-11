@@ -1,14 +1,16 @@
 const {exec} = require('child_process');
-const deleteSavedStructures = require('./deleteSavedStructures');
+const deleteSavedStructures = require('../deleteSavedStructures');
 
 module.exports = async (repoName) => {
-  // eslint-disable-next-line implicit-arrow-linebreak
   await deleteSavedStructures.deleteSavedRepository();
-  exec(`git clone ${repoName} ./data/Repository`, (err, out) => {
-    if (err) {
-      console.error(err);
-    } else {
-      console.log(out);
-    }
-  });
+  exec(
+    `git clone --no-checkout --bare --filter=blob:none ${repoName} ./data/Repository`,
+    (err) => {
+      if (err) {
+        console.error(err);
+      } else {
+        console.log('cloned');
+      }
+    },
+  );
 };

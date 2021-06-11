@@ -12,14 +12,14 @@ module.exports = {
 
   deleteDir: async (path) => {
     try {
-      await removeDirAsync(path, {recursive: true, force: true, retryDelay: 500});
+      await removeDirAsync(path, {
+        recursive: true,
+        force: true,
+      });
     } catch (err) {
       console.log(err);
     }
   },
 
-  exists: async (path) => {
-    const isExists = await existsAsync(path);
-    return isExists;
-  },
+  exists: (path) => existsAsync(path),
 };

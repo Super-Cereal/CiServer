@@ -6,7 +6,6 @@ const {apiRouter} = require('./routers');
 
 const app = express();
 app.use(express.json());
-// app.use('/files', express.static(staticFolder));
 
 app.use('/api', apiRouter);
 

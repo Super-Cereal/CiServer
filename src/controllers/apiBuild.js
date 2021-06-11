@@ -1,5 +1,6 @@
 const BuildDAL = require('../DAL/BuildDAL');
 const gitGetCommitData = require('../utils/childProcesses/gitGetCommitData');
+const cachedBuildLogs = require('../../data/Builds/cachedBuildLogs');
 
 const getAllBuilds = async (req, res) => {
   const response = await BuildDAL.getAllBuilds();
@@ -7,30 +8,22 @@ const getAllBuilds = async (req, res) => {
 };
 
 const getBuildDetails = async (req, res) => {
-  const {buildId} = req.params;
-  const response = await BuildDAL.getBuildDetails(buildId);
+  const response = await BuildDAL.getBuildDetails(req.params.buildId);
   res.send(response);
 };
 
 const getBuildLogs = async (req, res) => {
   const {buildId} = req.params;
-  let response = null;
-  if (true) {
+  let response = cachedBuildLogs.getBuildLogs(buildId);
+  if (!response) {
     response = await BuildDAL.getBuildLogs(buildId);
-  } else {
-    console.log(1);
+    cachedBuildLogs.cacheBuildLogs(buildId, response.data);
   }
   res.send(response);
 };
 
 const addNewBuild = async (req, res) => {
-  const {commitHash} = req.params;
-  const gitCommitData = await gitGetCommitData(commitHash);
-  const commitData = {
-    commitHash,
-    ...gitCommitData[0],
-    ...gitCommitData[1],
-  };
+  const commitData = await gitGetCommitData(req.params.commitHash);
   const response = await BuildDAL.addNewBuild(commitData);
   res.send(response);
 };

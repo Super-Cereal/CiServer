@@ -1,8 +1,8 @@
 const RepositoryDAL = require('../DAL/RepositoryDAL');
 const gitCloneRepo = require('../utils/childProcesses/gitCloneRepo');
-const deleteSavedStructures = require('../utils/childProcesses/deleteSavedStructures');
+const deleteSavedStructures = require('../utils/deleteSavedStructures');
 
-const getSettings = async (req, res) => {
+const getSettings = async (_, res) => {
   const response = await RepositoryDAL.getRepositorySettings();
   res.send(response);
 };
@@ -13,7 +13,7 @@ const sendSettings = async (req, res) => {
   res.send(response);
 };
 
-const deleteSettings = async (req, res) => {
+const deleteSettings = async (_, res) => {
   deleteSavedStructures.deleteSavedRepository();
   deleteSavedStructures.deleteSavedBuildsLogs();
   const response = await RepositoryDAL.deleteSettings();
