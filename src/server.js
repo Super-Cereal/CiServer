@@ -1,11 +1,12 @@
 const express = require('express');
 require('dotenv').config();
 
+const applyMiddlewares = require('./applyMiddlewares');
 const {PORT} = require('./config/config');
 const {apiRouter} = require('./routers');
 
 const app = express();
-app.use(express.json());
+applyMiddlewares(app);
 
 app.use('/api', apiRouter);
 
