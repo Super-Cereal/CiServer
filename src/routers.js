@@ -21,7 +21,7 @@ apiRouter.delete('/settings', deleteSettings);
 
 apiRouter.get('/builds', getAllBuilds);
 apiRouter.get('/builds/:buildId', getBuildDetails);
-apiRouter.get('/builds/:buildId/logs', cacheBuildLogs(3), getBuildLogs);
+apiRouter.get('/builds/:buildId/logs', cacheBuildLogs(32), getBuildLogs);
 apiRouter.post('/builds/:commitHash', addNewBuild);
 
 module.exports = {apiRouter};
