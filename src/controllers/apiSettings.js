@@ -15,7 +15,6 @@ const sendSettings = async (req, res) => {
 
 const deleteSettings = async (_, res) => {
   deleteSavedStructures.deleteSavedRepository();
-  deleteSavedStructures.deleteSavedBuildsLogs();
   const response = await RepositoryDAL.deleteSettings();
   res.send(response);
 };

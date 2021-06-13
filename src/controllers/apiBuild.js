@@ -1,6 +1,5 @@
 const BuildDAL = require('../DAL/BuildDAL');
 const gitGetCommitData = require('../utils/childProcesses/gitGetCommitData');
-const cachedBuildLogs = require('../../data/Builds/cachedBuildLogs');
 
 const getAllBuilds = async (req, res) => {
   const response = await BuildDAL.getAllBuilds();
@@ -14,11 +13,7 @@ const getBuildDetails = async (req, res) => {
 
 const getBuildLogs = async (req, res) => {
   const {buildId} = req.params;
-  let response = cachedBuildLogs.getBuildLogs(buildId);
-  if (!response) {
-    response = await BuildDAL.getBuildLogs(buildId);
-    cachedBuildLogs.cacheBuildLogs(buildId, response.data);
-  }
+  const response = await BuildDAL.getBuildLogs(buildId);
   res.send(response);
 };
 
