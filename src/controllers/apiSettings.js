@@ -2,13 +2,16 @@ const RepositoryDAL = require('../DAL/RepositoryDAL');
 const gitCloneRepo = require('../utils/childProcesses/gitCloneRepo');
 const deleteSavedStructures = require('../utils/deleteSavedStructures');
 
+let lastRepoName = '';
+
 const getSettings = async (_, res) => {
   const response = await RepositoryDAL.getRepositorySettings();
   res.send(response);
 };
 
 const sendSettings = async (req, res) => {
-  gitCloneRepo(req.body.repoName);
+  if (lastRepoName !== req.body.repoName) await gitCloneRepo(req.body.repoName);
+  lastRepoName = req.body.repoName;
   const response = await RepositoryDAL.sendRepositorySettings(req.body);
   res.send(response);
 };

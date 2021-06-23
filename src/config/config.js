@@ -1,3 +1,4 @@
 module.exports = {
-  PORT: 3000,
+  PORT: 8000,
+  ORIGIN_PORT: 3000,
 };

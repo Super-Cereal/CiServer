@@ -1,16 +1,15 @@
-const {exec} = require('child_process');
+/* eslint-disable consistent-return */
+const util = require('util');
+const exec = util.promisify(require('child_process').exec);
 const deleteSavedStructures = require('../deleteSavedStructures');
 
 module.exports = async (repoName) => {
   await deleteSavedStructures.deleteSavedRepository();
-  exec(
-    `git clone --no-checkout --bare --filter=blob:none ${repoName} ./data/Repository`,
-    (err) => {
-      if (err) {
-        console.error(err);
-      } else {
-        console.log('cloned');
-      }
-    },
-  );
+  console.time('cloning');
+  const err = await exec(`git clone ${repoName} ./data/Repository`);
+  console.timeEnd('cloning');
+  if (err) {
+    return {status: 500, error: err};
+  }
+  return {status: 200};
 };
