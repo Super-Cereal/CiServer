@@ -29,11 +29,11 @@
 
 ## Сборки
 
-**GET** `/api/build` получение списка всех сборок
+**GET** `/api/builds` получение списка всех сборок
 
-**GET** `/api/build/:buildId` получение информации о конкретной сборке
+**GET** `/api/builds/:buildId` получение информации о конкретной сборке
 
-**GET** `/api/build/:buildId/logs` получение логов билда (сплошной текст)
+**GET** `/api/builds/:buildId/logs` получение логов билда (сплошной текст)
 
 > Тк. это дорогая операция для бэкенда, то запросы [кэшируются](https://github.com/Super-Cereal/CiServer/blob/master/src/utils/cacheBuildLogs.js), так же есть инвалидация кэша - спустя 32 часа кэш удаляется.
 
