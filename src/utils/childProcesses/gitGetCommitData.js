@@ -23,7 +23,9 @@ module.exports = async (commitHash) => {
         if (err) {
           reject(err);
         } else {
-          resolve(out.substr(out.indexOf(' ') + 1).replaceAll('\n', ''));
+          const x = out.indexOf(' ');
+          console.log(out);
+          resolve(out.slice(x + 1, out.indexOf(' ', x + 1)).replaceAll('\n', ''));
         }
       },
     );
@@ -47,7 +49,7 @@ module.exports = async (commitHash) => {
     commitMessageDataPromise,
   ])
     .then((res) => ({
-      commitHash,
+      commitHash: commitHash.slice(0, 7),
       branchName: res[0],
       authorName: res[1],
       commitMessage: res[2],

@@ -2,7 +2,8 @@ const BuildDAL = require('../DAL/BuildDAL');
 const gitGetCommitData = require('../utils/childProcesses/gitGetCommitData');
 
 const getAllBuilds = async (req, res) => {
-  const response = await BuildDAL.getAllBuilds();
+  const {offset, limit} = req.query;
+  const response = await BuildDAL.getAllBuilds(offset, limit);
   res.send(response);
 };
 
