@@ -37,7 +37,7 @@
 
 > Тк. это дорогая операция для бэкенда, то запросы [кэшируются](https://github.com/Super-Cereal/CiServer/blob/master/src/utils/cacheBuildLogs.js), так же есть инвалидация кэша - спустя 32 часа кэш удаляется.
 
-**POST** `/api/build/:commitHash` добавление сборки в очередь
+**POST** `/api/builds/:commitHash` добавление сборки в очередь
 
 > Делается запрос по адресу бэкенда `/api/build/request`,
 > все данные о коммите получаются с помощью [дочерних процессов git](https://github.com/Super-Cereal/CiServer/blob/master/src/utils/childProcesses/gitGetCommitData.js)
