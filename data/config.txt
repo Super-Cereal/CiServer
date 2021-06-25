@@ -1,1 +1,1 @@
-https://github.com/Super-Cereal/pinkCoffee;$;master;$;npm build ;; npm run
+https://github.com/vuestorefront/vue-storefront;$;next;$;asd

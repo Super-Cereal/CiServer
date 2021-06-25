@@ -6,20 +6,24 @@ const readFileAsync = util.promisify(fs.readFile);
 const removeDirAsync = util.promisify(fs.rm);
 const existsAsync = util.promisify(fs.exists);
 
+const execAsync = util.promisify(require('child_process').exec);
+
+const readFile = async (path) => {
+  try {
+    const response = await readFileAsync(path, {encoding: 'utf-8'});
+    return response;
+  } catch (err) {
+    return '';
+  }
+};
+
+const writeFile = async (path, content) => {
+  await writeFileAsync(path, content, {encoding: 'utf-8'});
+};
+
 module.exports = {
-  writeFile: async (path, content) => {
-    console.time('writingFile');
-    await writeFileAsync(path, content, {encoding: 'utf-8'});
-    console.timeEnd('writingFile');
-  },
-  readFile: async (path) => {
-    try {
-      const response = await readFileAsync(path, {encoding: 'utf-8'});
-      return response;
-    } catch (err) {
-      return '';
-    }
-  },
+  writeFile,
+  readFile,
   deleteDir: async (path) => {
     try {
       await removeDirAsync(path, {
@@ -30,6 +34,16 @@ module.exports = {
       console.log(err);
     }
   },
-
   exists: (path) => existsAsync(path),
+  getConfigRepoData: async () => (await readFile('./data/config.txt')).split(';$;'),
+  writeConfigRepoData: async (repoName, mainBranch, buildCommand) => {
+    writeFile('./data/config.txt', `${repoName};$;${mainBranch};$;${buildCommand}`);
+  },
+  exec: async (command) => {
+    try {
+      return await execAsync(command);
+    } catch (err) {
+      return err;
+    }
+  },
 };

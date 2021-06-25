@@ -14,18 +14,14 @@ const RepositoryDAL = {
   sendRepositorySettings(repoSettings) {
     return instance
       .post('/conf', repoSettings)
-      .then((response) => ({status: response.status, ...response.data}))
-      .catch((error) => {
-        console.log(error);
-      });
+      .then((response) => ({status: response.status, data: response.data}))
+      .catch((error) => ({status: 500, data: error}));
   },
   deleteSettings() {
     return instance
       .delete('/conf')
       .then((response) => ({status: response.status}))
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => ({status: 500, data: error}));
   },
 };
 

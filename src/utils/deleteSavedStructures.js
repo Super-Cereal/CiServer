@@ -5,10 +5,8 @@ const deleteSavedStructures = {
     if (await fsUtils.exists('./data/Repository')) {
       await fsUtils.deleteDir('./data/Repository');
     }
-  },
-  async deleteSavedBuildsLogs() {
-    if (await fsUtils.exists('./data/Builds/logs')) {
-      await fsUtils.deleteDir('./data/Builds/logs');
+    if (await fsUtils.exists('./data/config.txt')) {
+      await fsUtils.deleteDir('./data/config.txt');
     }
   },
 };

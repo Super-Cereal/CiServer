@@ -8,7 +8,12 @@ const getSettings = async (_, res) => {
 };
 
 const sendSettings = async (req, res) => {
-  await gitCloneRepo(req.body.repoName, req.body.mainBranch, req.body.buildCommand);
+  // eslint-disable-next-line max-len
+  const {status, data} = await gitCloneRepo(req.body.repoName, req.body.mainBranch, req.body.buildCommand);
+  if (status !== 200) {
+    res.send({status, data: {error: data.error}});
+    return;
+  }
   const response = await RepositoryDAL.sendRepositorySettings(req.body);
   res.send(response);
 };
