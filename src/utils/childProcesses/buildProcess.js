@@ -5,9 +5,9 @@ module.exports = async () => {
   const [, , buildCommand] = await getConfigRepoData();
 
   console.log('build started');
-  console.time('building');
+  console.time('builded');
   const response = await exec(`cd data/Repository && ${buildCommand}`);
-  console.timeEnd('building');
+  console.timeEnd('builded');
 
   if (response.stderr) {
     return {status: 501, data: response.stderr};

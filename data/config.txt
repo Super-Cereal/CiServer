@@ -1,1 +1,1 @@
-https://github.com/Super-Cereal/todo-React;$;master;$;npm run build
+https://github.com/PavelIgnatev/social-network;$;main;$;npm run build

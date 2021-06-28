@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 const RepositoryDAL = require('../DAL/RepositoryDAL');
 const gitCloneRepo = require('../utils/childProcesses/gitCloneRepo');
 const deleteSavedStructures = require('../utils/deleteSavedStructures');
@@ -10,13 +11,18 @@ const getSettings = async (_, res) => {
 };
 
 const sendSettings = async (req, res) => {
-  // eslint-disable-next-line max-len
-  const {status, data} = await gitCloneRepo(req.body.repoName, req.body.mainBranch, req.body.buildCommand);
+  // благодаря этому установка зависимостей и
+  // последующие билды будут вставать в очередь
+  // за клонированием репозитория и не будут ломать сервер
+  const gitCloneRepoPromise = gitCloneRepo(req.body.repoName, req.body.mainBranch, req.body.buildCommand);
+  processesForExec.push({func: () => gitCloneRepoPromise});
+  processesForExec.push({func: gitInstallRepoRequirements});
+
+  const {status, data} = await gitCloneRepoPromise;
   if (status !== 200) {
     res.send({status, data: {error: data.error}});
     return;
   }
-  processesForExec.push({func: gitInstallRepoRequirements});
   const response = await RepositoryDAL.sendRepositorySettings(req.body);
   res.send(response);
 };

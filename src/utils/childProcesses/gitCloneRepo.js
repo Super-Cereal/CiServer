@@ -20,10 +20,11 @@ module.exports = async (repoName, mainBranch, buildCommand) => {
     return {status: 200};
   }
 
-  const response = await deleteSavedStructures.deleteSavedRepository();
-  console.time('cloning');
+  await deleteSavedStructures.deleteSavedRepository();
+  console.log('started cloning');
+  console.time('cloned');
   await exec(`git clone ${repoName} ./data/Repository`);
-  console.timeEnd('cloning');
+  console.timeEnd('cloned');
 
   writeConfigRepoData(repoName, mainBranch, buildCommand);
   return {status: 200};

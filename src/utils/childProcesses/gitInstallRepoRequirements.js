@@ -3,9 +3,9 @@ const {exec} = require('../fs');
 
 module.exports = async () => {
   console.log('started installing requirements');
-  console.time('installing requirements');
+  console.time('requirements installed');
   await exec('cd ./data/Repository && npm install');
-  console.timeEnd('installing requirements');
+  console.timeEnd('requirements installed');
 
   return {status: 200};
 };
