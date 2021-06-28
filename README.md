@@ -35,7 +35,7 @@
 
 **GET** `/api/builds/:buildId/logs` получение логов билда (сплошной текст)
 
-> Тк. это дорогая операция для бэкенда, то запросы [кэшируются](https://github.com/Super-Cereal/CiServer/blob/master/src/utils/cacheBuildLogs.js), так же есть инвалидация кэша - спустя 32 часа кэш удаляется.
+> ~~Тк. это дорогая операция для бэкенда, то запросы [кэшируются](https://github.com/Super-Cereal/CiServer/blob/master/src/utils/cacheBuildLogs.js), так же есть инвалидация кэша - спустя 32 часа кэш удаляется.~~
 
 **POST** `/api/builds/:commitHash` добавление сборки в очередь
 
