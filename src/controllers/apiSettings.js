@@ -1,6 +1,8 @@
 const RepositoryDAL = require('../DAL/RepositoryDAL');
 const gitCloneRepo = require('../utils/childProcesses/gitCloneRepo');
 const deleteSavedStructures = require('../utils/deleteSavedStructures');
+const gitInstallRepoRequirements = require('../utils/childProcesses/gitInstallRepoRequirements');
+const processesForExec = require('../utils/processesForExec');
 
 const getSettings = async (_, res) => {
   const response = await RepositoryDAL.getRepositorySettings();
@@ -14,6 +16,7 @@ const sendSettings = async (req, res) => {
     res.send({status, data: {error: data.error}});
     return;
   }
+  processesForExec.push({func: gitInstallRepoRequirements});
   const response = await RepositoryDAL.sendRepositorySettings(req.body);
   res.send(response);
 };

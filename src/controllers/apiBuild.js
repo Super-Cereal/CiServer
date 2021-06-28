@@ -13,14 +13,15 @@ const getBuildDetails = async (req, res) => {
 };
 
 const getBuildLogs = async (req, res) => {
-  const {buildId} = req.params;
-  const response = await BuildDAL.getBuildLogs(buildId);
+  const response = await BuildDAL.getBuildLogs(req.params.buildId);
   res.send(response);
 };
 
 const addNewBuild = async (req, res) => {
-  const commitData = await gitGetCommitData(req.params.commitHash);
-  const response = await BuildDAL.addNewBuild(commitData);
+  let response = await gitGetCommitData(req.params.commitHash);
+  if (response.status === 200) {
+    response = await BuildDAL.addNewBuild(response);
+  }
   res.send(response);
 };
 

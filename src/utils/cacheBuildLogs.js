@@ -1,6 +1,9 @@
+/* eslint-disable max-len */
 const mcache = require('memory-cache');
 
 const cacheBuildLogs = (duration) => (req, res, next) => {
+  // const buildStatus = await BuildDAL.(req.params.buildId).data?.status?.toLowerCase();
+  // if (buildStatus !== 'fail' && buildStatus !== 'success') next();
   // duration - сколько кэш проживет в часах
   const key = `__express__${req.params.buildId}`;
   const cachedBody = mcache.get(key);
