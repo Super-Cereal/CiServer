@@ -21,7 +21,7 @@ module.exports = async (repoName, mainBranch, buildCommand) => {
   }
 
   await deleteSavedStructures.deleteSavedRepository();
-  console.log('started cloning');
+  console.log(`started cloning ${repoName}`);
   console.time('cloned');
   await exec(`git clone ${repoName} ./data/Repository`);
   console.timeEnd('cloned');

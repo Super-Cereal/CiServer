@@ -1,3 +1,5 @@
+const axios = require('axios');
+
 const instance = require('./instance');
 
 const RepositoryDAL = {
@@ -22,6 +24,9 @@ const RepositoryDAL = {
       .delete('/conf')
       .then((response) => ({status: response.status}))
       .catch((error) => ({status: 500, data: error}));
+  },
+  sendRepositorySettingsToCiServer({repoName, buildCommand, mainBranch, period}) {
+    axios.post('http://127.0.0.1:8080/updateRepoSettings', {repoName, buildCommand, mainBranch, period});
   },
 };
 

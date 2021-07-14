@@ -1,7 +1,7 @@
 node_modules
 
 data/Repository
-data/Builds/logs
+data/config.txt
 
 .env
 
