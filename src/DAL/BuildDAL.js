@@ -33,7 +33,7 @@ const BuildsDAL = {
       .then((res) => ({status: res.status, data: res.data.data}))
       .catch((err) => ({status: 500, data: err}));
     if (response.status === 200) {
-      axios.post('http://127.0.0.1:8080/startBuild', {buildId: response.data.id}).catch(() => {});
+      axios.post('http://127.0.0.1:8080/startBuild', {buildId: response.data.id, commitHash: commitData.commitHash}).catch(() => {});
     }
     return response;
   },
