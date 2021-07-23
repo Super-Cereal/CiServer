@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "allowJs": true,
+    "strict": true,
+    "outDir": "./dist/src",
+    "sourceMap": true,
+    "declaration": true,
+    "module": "CommonJs",
+    "esModuleInterop": true,
+    "lib": ["ESNext.String"]
+  },
+  "include": ["./src"]
+}
